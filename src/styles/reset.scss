@@ -1,0 +1,54 @@
+// -----------------------------------------------------------------------------
+// CSS Reset & Base Styles
+// -----------------------------------------------------------------------------
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 16px;
+  line-height: 1.5;
+  // 使用主题定义的背景色和文字颜色
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+// 列表重置
+ul, ol, li {
+  list-style: none;
+}
+
+// 链接重置
+a {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+// 按钮与表单重置
+button, input, textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+  outline: none;
+  border: none;
+  background: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+// 图片重置
+img {
+  display: block;
+  max-width: 100%;
+}

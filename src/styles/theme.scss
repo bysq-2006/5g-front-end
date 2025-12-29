@@ -1,0 +1,114 @@
+// -----------------------------------------------------------------------------
+// 基础调色板 (Base Palette)
+// 这样变：document.documentElement.setAttribute('data-theme', 'dark');
+// 切换回亮色
+// document.documentElement.removeAttribute('data-theme');
+// -----------------------------------------------------------------------------
+
+// 品牌色/强调色 (Blue Accent)
+$color-primary: #007AFF;       // 按钮、图表主要颜色
+$color-primary-hover: #0062CC;
+$color-primary-light: #E3F2FD; // 浅色背景下的图表填充色
+
+// 功能色 (Functional Colors)
+$color-success: #34C759;       // 状态：Active/Online
+$color-warning: #FF9500;       // 警告
+$color-danger: #FF3B30;        // 错误/通知红点
+$color-info: #5856D6;
+
+// 中性色 - 亮色系 (Neutrals - Light)
+$gray-50: #F5F7FA;  // 亮色模式背景
+$gray-100: #E5E5EA; // 边框
+$gray-200: #D1D1D6;
+$gray-300: #C7C7CC;
+$gray-400: #AEAEB2;
+
+// 中性色 - 暗色系 (Neutrals - Dark)
+$gray-500: #8E8E93; // 次要文字
+$gray-600: #636366;
+$gray-700: #48484A;
+$gray-800: #2C2C2E; // 暗色模式卡片背景
+$gray-900: #1C1C1E; // 暗色模式背景
+$black: #000000;
+$white: #FFFFFF;
+
+// -----------------------------------------------------------------------------
+// 主题定义 (Theme Definitions)
+// -----------------------------------------------------------------------------
+
+// 亮色模式映射
+$light-theme: (
+  'bg-app': $gray-50,           // 应用背景
+  'bg-nav': $white,             // 导航栏背景
+  'bg-card': $white,            // 卡片/模块背景
+  'bg-hover': $gray-50,         // 悬停背景
+  
+  'text-primary': #1D1D1F,      // 主要文字 (深黑)
+  'text-secondary': $gray-500,  // 次要文字 (灰色)
+  'text-tertiary': $gray-400,   // 占位符/辅助文字
+  
+  'border-color': $gray-100,    // 边框/分割线
+  'border-focus': $color-primary,
+  
+  'accent-color': $color-primary,
+  'chart-fill': $color-primary-light,
+  'chart-line': $color-primary,
+  
+  'shadow': 0 4px 24px rgba(0, 0, 0, 0.04)
+);
+
+// 暗色模式映射
+$dark-theme: (
+  'bg-app': $black,             // 应用背景 (纯黑或极深灰)
+  'bg-nav': $gray-900,          // 导航栏背景
+  'bg-card': $gray-900,         // 卡片/模块背景
+  'bg-hover': $gray-800,        // 悬停背景
+  
+  'text-primary': $white,       // 主要文字 (纯白)
+  'text-secondary': $gray-500,  // 次要文字
+  'text-tertiary': $gray-600,   // 占位符/辅助文字
+  
+  'border-color': $gray-800,    // 边框/分割线
+  'border-focus': $color-primary,
+  
+  'accent-color': #0A84FF,      // 暗色模式下稍微调整蓝色的亮度
+  'chart-fill': rgba($color-primary, 0.2), // 暗色模式下图表填充透明度降低
+  'chart-line': #0A84FF,
+  
+  'shadow': 0 4px 24px rgba(0, 0, 0, 0.4)
+);
+
+// -----------------------------------------------------------------------------
+// 生成 CSS 变量 (Generate CSS Variables)
+// -----------------------------------------------------------------------------
+
+@mixin spread-map($map) {
+  @each $key, $value in $map {
+    --#{$key}: #{$value};
+  }
+}
+
+:root {
+  // 默认应用亮色模式
+  @include spread-map($light-theme);
+  
+  // 定义全局功能色变量 (不随主题变化，或者微调)
+  --color-success: #{$color-success};
+  --color-warning: #{$color-warning};
+  --color-danger: #{$color-danger};
+}
+
+// 当 html 或 body 标签上有 data-theme='dark' 属性时应用暗色模式
+[data-theme='dark'] {
+  @include spread-map($dark-theme);
+}
+
+// -----------------------------------------------------------------------------
+// 实用类 (Utility Classes - Optional)
+// -----------------------------------------------------------------------------
+
+.bg-app { background-color: var(--bg-app); }
+.bg-card { background-color: var(--bg-card); }
+.text-primary { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.text-accent { color: var(--accent-color); }
