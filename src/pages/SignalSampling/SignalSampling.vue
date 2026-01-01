@@ -1,89 +1,197 @@
 <template>
-  <div class="main">
-    <h1 style="margin-bottom: 24px;"> 信号采样页面 </h1>
-    <div class="cards-container">
-      <OperatorInformation 
-        class="card" 
-        :imgSrc="'/电信.png'"
-        :operator="operatorInfo.operator"
-        :mcc="operatorInfo.mcc"
-        :mnc="operatorInfo.mnc"
-      />
-      <ServiceCell class="card" :location="serviceCellLocation" :list="serviceCellList" />
-      <div class="card">
-        <h3>信号强度</h3>
-        <ButtonGroup 
-          v-model="currentMode" 
-          :items="modes" 
-          class="mb-4"
+  <div class="signal-sampling-page">
+    <Header carrierName="中国移动" carrierEn="China Mobile" mcc="460" mnc="00" />
+
+    <div class="content-grid">
+      <!-- Left Column -->
+      <div class="left-column">
+        <SignalDetection
+          v-model:signalType="signalType"
+          :currentSignalValue="currentSignalValue"
+          :signalHistory="signalHistory"
+          :frequencyRange="selectedRange?.range || ''"
         />
-        <SignalStrengthChart :dataList="testlist" />
+        
+        <ControlPanel
+          v-model:frequency="frequency"
+          :analyzing="analyzing"
+          :frequencyRanges="frequencyRanges"
+          @analyze="handleAnalyze"
+          @clearHistory="clearHistory"
+        />
+      </div>
+
+      <!-- Right Column -->
+      <div class="right-column">
+        <AIDiagnosis :diagnosis="diagnosis" />
+        
+        <VoiceBroadcast v-model:enabled="voiceEnabled" />
+        
+        <ServiceArea />
       </div>
     </div>
   </div>
 </template>
 
-<script setup name="SignalSampling">
-import { ref } from 'vue';
-import { useSignalDetectionStore } from '@/stores/SignalDetectionStore';
-import OperatorInformation from '@/components/OperatorInformation.vue';
-import ServiceCell from '@/components/ServiceCell.vue';
-import SignalStrengthChart from '@/components/SignalStrengthChart.vue';
-import ButtonGroup from '@/components/ButtonGroup.vue';
+<script setup lang="ts">
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
+import Header from './contents/header.vue';
+import SignalDetection from './contents/SignalDetection.vue';
+import ControlPanel from './contents/ControlPanel.vue';
+import AIDiagnosis from './contents/AIDiagnosis.vue';
+import VoiceBroadcast from './contents/VoiceBroadcast.vue';
+import ServiceArea from './contents/ServiceArea.vue';
 
-const modes = ref(['SS RSRP', 'SS SINR', 'SS RSRQ']);
-const currentMode = ref(modes.value[0]);
-const operatorInfo = ref({
-  operator: '中国电信',
-  mcc: '460',
-  mnc: '11'
+// Types
+interface SignalData {
+  rsrp: number;
+  rsrq: number;
+  sinr: number;
+}
+
+interface DiagnosisResult {
+  type: string;
+  description: string;
+  suggestion: string;
+  probability: number;
+}
+
+// State
+const isSampling = ref(true);
+const frequency = ref('5G');
+const signalType = ref<'RSRP' | 'RSRQ' | 'SINR'>('RSRP');
+const signalHistory = ref<SignalData[]>([]);
+const analyzing = ref(false);
+const diagnosis = ref<string | null>(null);
+const currentSignalValue = ref<SignalData | null>(null);
+const voiceEnabled = ref(false);
+
+const frequencyRanges = [
+  { value: '5G', label: '5G (n78)', range: '3.3-3.8 GHz' },
+  { value: '4G', label: '4G (B41)', range: '2.496-2.69 GHz' },
+  { value: '3G', label: '3G (B1)', range: '1920-1980 MHz' }
+];
+
+const selectedRange = computed(() => frequencyRanges.find(f => f.value === frequency.value));
+
+// Logic
+let intervalId: number | null = null;
+
+const startSampling = () => {
+  intervalId = window.setInterval(() => {
+    const now = Date.now();
+    const newData: SignalData = {
+      rsrp: -85 + Math.random() * 20,
+      rsrq: -10 + Math.random() * 5,
+      sinr: 15 + Math.random() * 10
+    };
+
+    currentSignalValue.value = newData;
+
+    if (isSampling.value) {
+      signalHistory.value.push(newData);
+      if (signalHistory.value.length > 60) {
+        signalHistory.value.shift();
+      }
+    }
+  }, 1000);
+};
+
+const stopSampling = () => {
+  if (intervalId) {
+    clearInterval(intervalId);
+    intervalId = null;
+  }
+};
+
+const handleAnalyze = async () => {
+  analyzing.value = true;
+  // Simulate AI analysis
+  await new Promise(resolve => setTimeout(resolve, 2000));
+
+  const possibleDiagnoses: DiagnosisResult[] = [
+    {
+      type: '正常',
+      description: '信号质量良好，无异常衰减',
+      suggestion: '定期维护',
+      probability: 0.50
+    },
+    {
+      type: '天线异常',
+      description: '检测到信号强度波动异常，可能存在物理损伤',
+      suggestion: '建议进行AI巡检检查天线连接和腐蚀情况',
+      probability: 0.20
+    },
+    {
+      type: '馈线故障',
+      description: 'RSRQ指标异常下降，馈线损耗过高',
+      suggestion: '检查馈线接头密封性和连接状况',
+      probability: 0.12
+    },
+    {
+      type: '干扰检测',
+      description: 'SINR值偏低，频段存在外部干扰',
+      suggestion: '调整天线方向或排查周边干扰源',
+      probability: 0.10
+    },
+    {
+      type: '设备老化',
+      description: '信号整体强度缓慢下降，设备性能衰退',
+      suggestion: '建议更换老化设备并重新校准',
+      probability: 0.08
+    }
+  ];
+
+  possibleDiagnoses.sort((a, b) => b.probability - a.probability);
+  diagnosis.value = JSON.stringify(possibleDiagnoses);
+  analyzing.value = false;
+};
+
+const clearHistory = () => {
+  signalHistory.value = [];
+};
+
+// Lifecycle
+onMounted(() => {
+  startSampling();
 });
 
-const serviceCellLocation = ref('104.11812/30.648');
-const serviceCellList = ref([
-  { label: '数据网', value: 'NR' },
-  { label: '小区类型', value: 'NR' },
-  { label: 'NR-TAC', value: '1519616' },
-  { label: 'NR-PCI', value: '168' },
-  { label: 'NR-CI', value: '6187786496(1510690-256)' },
-  { label: 'NR-ARFCN', value: '633984' },
-  { label: 'NR-FREQ', value: '3509.76 MHz' },
-]);
-const testlist = ref([
-]);
+onUnmounted(() => {
+  stopSampling();
+});
 
-setInterval(() => {
-  // 模拟信号强度变化
-  if (testlist.value.length > 60) {
-    testlist.value.shift();
-  }
-  const newValue = -60 - Math.floor(Math.random() * 20); // -60 到 -79 之间
-  testlist.value.push(newValue);
-}, 1000);
+watch(isSampling, (newVal) => {
+  if (newVal) startSampling();
+  else stopSampling();
+});
 </script>
 
 <style scoped lang="scss">
+.signal-sampling-page {
+  background-color: var(--bg-app);
+  transition: background-color 0.3s ease;
+}
 
-.cards-container {
-  display: flex;
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 24px;
-  flex-wrap: wrap;
+  margin-top: 24px;
+
+  @media (min-width: 1024px) {
+    grid-template-columns: 2fr 1fr;
+  }
 }
 
-.card {
-  position: relative;
-  background-color: var(--bg-card);
-  box-shadow:0 1px 6px var(--shadow);
-  border-radius: 12px;
-  padding: 16px;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+.left-column {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
-.mb-4 {
-  margin-bottom: 16px;
-  position: absolute;
-  z-index: 2;
-  top: 30px;
-  right: 54px;
+.right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 </style>

@@ -11,16 +11,15 @@
   import Navigation from '@/pages/Navigation.vue';
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .main {
-  min-height: 100vh;
   background: var(--bg-app);
   color: var(--text-primary);
 }
 
 .content {
-  padding: 42px 64px;
-  margin-left: 200px;
+  padding: 24px 36px;
+  margin-left: 180px;
 }
 
 @media (max-width: 768px) {

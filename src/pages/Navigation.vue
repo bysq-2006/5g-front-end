@@ -20,15 +20,15 @@
     <div class="theme-toggle-box">
       <button class="theme-toggle-btn" @click="toggleTheme">
         <span v-if="isDark">
-          <!-- 太阳图标（亮色） -->
-          <svg class="theme-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-          </svg>
-        </span>
-        <span v-else>
           <!-- 月亮图标（暗色） -->
           <svg class="theme-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </span>
+        <span v-else>
+          <!-- 太阳图标（亮色） -->
+          <svg class="theme-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
           </svg>
         </span>
       </button>
@@ -70,7 +70,7 @@ const toggleTheme = () => {
 
 <style lang="scss" scoped>
 .navigation {
-  width: 200px;
+  width: 190px;
   height: 100vh;
   background-color: var(--bg-nav);
   padding-top: 32px;
@@ -85,7 +85,7 @@ const toggleTheme = () => {
 
   .title {
     margin-bottom: 40px;
-    margin-left: 32px;
+    margin-left: 24px;
 
     .logo {
       font-size: 24px;
@@ -117,7 +117,7 @@ const toggleTheme = () => {
 
     li {
       width: 100%;
-      padding: 12px 32px;
+      padding: 12px 24px;
       border-radius: 4px;
       color: var(--nav-text-color);
       font-weight: 400;
@@ -146,7 +146,7 @@ const toggleTheme = () => {
     display: flex;
     justify-content: flex-start;
     align-items: flex-end;
-    padding: 24px 28px;
+    padding: 24px 20px;
   }
   .theme-toggle-btn {
     background: none;

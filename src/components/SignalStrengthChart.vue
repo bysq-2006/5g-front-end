@@ -8,6 +8,7 @@ import * as echarts from 'echarts';
 
 const props = defineProps<{
   dataList: number[];
+  color?: string;
 }>();
 
 const chartRef = ref<HTMLElement | null>(null);
@@ -18,6 +19,8 @@ const initChart = () => {
   if (!chartRef.value) return;
 
   chartInstance = echarts.init(chartRef.value);
+
+  const chartColor = props.color || '#5470C6';
 
   const option: echarts.EChartsOption = {
     animation: true,
@@ -88,11 +91,11 @@ const initChart = () => {
         data: [],
         lineStyle: {
           width: 0,
-          color: '#5470C6'
+          color: chartColor
         },
         areaStyle: {
           origin: 'start',
-          color: '#5470C6',
+          color: chartColor,
           opacity: 1
         }
       }
@@ -104,6 +107,7 @@ const initChart = () => {
 
 const updateChart = () => {
   if (!chartInstance) return;
+  if (!props.dataList) return;
 
   // 只取列表的后六十位元素
   const dataToRender = props.dataList.slice(-60);
@@ -118,19 +122,23 @@ const updateChart = () => {
   const currentXAxisData = Array.from({ length: 60 }, (_, i) => i + updateCount);
   updateCount++;
 
+  const chartColor = props.color || '#5470C6';
+
   chartInstance.setOption({
     xAxis: {
       data: currentXAxisData
     },
     series: [
       {
-        data: filledData
+        data: filledData,
+        lineStyle: { color: chartColor },
+        areaStyle: { color: chartColor }
       }
     ]
   });
 };
 
-watch(() => props.dataList, () => {
+watch(() => [props.dataList, props.color], () => {
   updateChart();
 }, { deep: true });
 
@@ -152,7 +160,7 @@ const handleResize = () => {
 
 <style scoped>
 .chart-container {
-  width: 800px;
+  width: 100%;
   height: 300px;
   min-height: 200px;
   /* 给一个最小高度 */

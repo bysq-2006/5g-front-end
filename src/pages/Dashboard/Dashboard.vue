@@ -23,8 +23,8 @@
 import Title from './contents/Title.vue';
 import EmergencyResponse from './contents/EmergencyResponse.vue';
 import DashboardCards from './contents/DashboardCards.vue';
-import AlertList from '@/components/AlertList.vue';
-import QuickAccess from '@/components/QuickAccess.vue';
+import AlertList from './contents/AlertList.vue';
+import QuickAccess from './contents/QuickAccess.vue';
 
 const quickAccessItems = [
   { 
