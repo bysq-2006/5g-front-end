@@ -17,6 +17,22 @@
       <li :class="{ active: $route.path === '/patrol-report' }" @click="navigateTo('/patrol-report')">巡检报告</li>
       <li :class="{ active: $route.path === '/system-settings' }" @click="navigateTo('/system-settings')">系统设置</li>
     </ol>
+    <div class="theme-toggle-box">
+      <button class="theme-toggle-btn" @click="toggleTheme">
+        <span v-if="isDark">
+          <!-- 太阳图标（亮色） -->
+          <svg class="theme-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+        </span>
+        <span v-else>
+          <!-- 月亮图标（暗色） -->
+          <svg class="theme-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </span>
+      </button>
+    </div>
   </nav>
 </template>
 
@@ -34,6 +50,21 @@ const navigateTo = (path) => {
 
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value;
+};
+const isDark = ref(false);
+// 检查当前主题
+if (typeof window !== 'undefined') {
+  isDark.value = document.documentElement.getAttribute('data-theme') === 'dark';
+}
+
+const toggleTheme = () => {
+  if (isDark.value) {
+    document.documentElement.removeAttribute('data-theme');
+    isDark.value = false;
+  } else {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    isDark.value = true;
+  }
 };
 </script>
 
@@ -62,6 +93,7 @@ const toggleMenu = () => {
       color: var(--nav-text-color);
       white-space: nowrap;
       letter-spacing: 2px;
+      transition: color 0.3s ease;
     }
 
     .subtitle {
@@ -70,6 +102,7 @@ const toggleMenu = () => {
       margin-top: 2px;
       letter-spacing: 1px;
       opacity: 0.8;
+      transition: color 0.3s ease;
     }
   }
 
@@ -89,7 +122,7 @@ const toggleMenu = () => {
       color: var(--nav-text-color);
       font-weight: 400;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.2s ease, color 0.3s ease;
       display: flex;
       align-items: center;
       white-space: nowrap;
@@ -107,6 +140,42 @@ const toggleMenu = () => {
     }
   }
 }
+  .theme-toggle-box {
+    margin-top: auto;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    padding: 24px 28px;
+  }
+  .theme-toggle-btn {
+    background: none;
+    color: var(--nav-text-color);
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    font-size: 15px;
+    cursor: pointer;
+    transition: transform 0.18s cubic-bezier(.4,1.4,.6,1), color 0.2s, color 0.3s ease;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    .theme-icon {
+      width: 22px;
+      height: 22px;
+      display: block;
+      color: var(--nav-text-color);
+      transition: color 0.3s ease;
+    }
+    &:hover {
+      transform: scale(1.13);
+      color: var(--accent-color);
+    }
+    &:active {
+      transform: scale(1.0);
+    }
+  }
 
 .mobile-toggle {
   display: none;
@@ -126,7 +195,7 @@ const toggleMenu = () => {
     height: 3px;
     background-color: var(--text-primary, #333);
     border-radius: 3px;
-    transition: all 0.3s ease;
+    transition: all 0.3s ease, background-color 0.3s ease;
   }
   
   &.active {

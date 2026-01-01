@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Dashboard from '@/pages/Dashboard.vue'
+import Dashboard from '@/pages/Dashboard/Dashboard.vue'
 import SignalSampling from '@/pages/SignalSampling/SignalSampling.vue'
 import AIDetection from '@/pages/AIDetection/AIDetection.vue'
 import PatrolReport from '@/pages/PatrolReport/PatrolReport.vue'

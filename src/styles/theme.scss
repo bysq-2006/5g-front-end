@@ -38,9 +38,10 @@ $white: #FFFFFF;
 
 // 亮色模式映射
 $light-theme: (
-  'bg-app': $gray-50,           // 应用背景
+  'bg-app': $white,           // 应用背景
   'bg-nav': $gray-800,             // 导航栏背景
   'bg-card': $white,            // 卡片/模块背景
+  'bg-card-blue': #f5f9ff,     // 蓝色系卡片背景
   'bg-hover': $gray-50,         // 悬停背景
   
   'text-primary': #1D1D1F,      // 主要文字 (深黑)
@@ -63,8 +64,9 @@ $light-theme: (
 // 暗色模式映射
 $dark-theme: (
   'bg-app': $black,             // 应用背景 (纯黑或极深灰)
-  'bg-nav': $gray-700,          // 导航栏背景
+  'bg-nav': $gray-900,          // 导航栏背景
   'bg-card': $gray-900,         // 卡片/模块背景
+  'bg-card-blue': #101012, // 暗色模式蓝色系卡片背景 (浅蓝透明)
   'bg-hover': $gray-800,        // 悬停背景
   
   'text-primary': $white,       // 主要文字 (纯白)
@@ -113,8 +115,8 @@ $dark-theme: (
 // 实用类 (Utility Classes - Optional)
 // -----------------------------------------------------------------------------
 
-.bg-app { background-color: var(--bg-app); }
-.bg-card { background-color: var(--bg-card); }
-.text-primary { color: var(--text-primary); }
-.text-secondary { color: var(--text-secondary); }
-.text-accent { color: var(--accent-color); }
+.bg-app { background-color: var(--bg-app); transition: background-color 0.3s ease; }
+.bg-card { background-color: var(--bg-card); transition: background-color 0.3s ease; }
+.text-primary { color: var(--text-primary); transition: color 0.3s ease; }
+.text-secondary { color: var(--text-secondary); transition: color 0.3s ease; }
+.text-accent { color: var(--accent-color); transition: color 0.3s ease; }

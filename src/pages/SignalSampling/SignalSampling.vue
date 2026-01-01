@@ -63,9 +63,6 @@ setInterval(() => {
 </script>
 
 <style scoped lang="scss">
-.main {
-  padding: 42px 64px;
-}
 
 .cards-container {
   display: flex;
@@ -79,6 +76,7 @@ setInterval(() => {
   box-shadow:0 1px 6px var(--shadow);
   border-radius: 12px;
   padding: 16px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .mb-4 {

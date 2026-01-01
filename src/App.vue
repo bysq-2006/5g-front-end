@@ -19,12 +19,15 @@
 }
 
 .content {
+  padding: 42px 64px;
   margin-left: 200px;
 }
 
 @media (max-width: 768px) {
   .content {
+    padding: 24px 16px;
     margin-left: 0;
+    margin-top: 32px;
   }
 }
 
