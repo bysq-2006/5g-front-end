@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>彝路迅瞳 - 山区基站智能巡检系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        /* 头部样式 */
+        header {
+            background: linear-gradient(to right, #0d47a1, #1565c0);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #0d47a1;
+            font-weight: bold;
+        }
+        
+        .logo-text h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        
+        .logo-text p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .language-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .language-btn {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .language-btn.active {
+            background: white;
+            color: #0d47a1;
+            font-weight: bold;
+        }
+        
+        .language-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        /* 主内容区域 */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 25px;
+        }
+        
+        @media (max-width: 900px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* 左侧面板 - 视觉检测 */
+        .panel-left {
+            border-right: 1px solid #e0e0e0;
+            padding-right: 20px;
+        }
+        
+        .panel-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            color: #0d47a1;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .panel-title i {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        
+        .video-container {
+            position: relative;
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            height: 280px;
+            margin-bottom: 20px;
+        }
+        
+        .video-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #222, #444);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .video-placeholder i {
+            font-size: 60px;
+            margin-bottom: 15px;
+            color: #64b5f6;
+        }
+        
+        .detection-results {
+            background: #f5f9ff;
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid #0d47a1;
+        }
+        
+        .result-item {
+            margin-bottom: 15px;
+        }
+        
+        .result-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, #4caf50, #8bc34a);
+            border-radius: 5px;
+        }
+        
+        .confidence-92 {
+            width: 92%;
+        }
+        
+        .confidence-65 {
+            width: 65%;
+        }
+        
+        .fault-points {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .fault-point {
+            padding: 8px 12px;
+            background: #fff3e0;
+            border-radius: 20px;
+            font-size: 14px;
+            border: 1px solid #ffb74d;
+        }
+        
+        .fault-point.critical {
+            background: #ffebee;
+            border-color: #ef5350;
+        }
+        
+        /* 右侧面板 - 信号分析 */
+        .panel-right {
+            padding-left: 20px;
+        }
+        
+        .signal-graph {
+            background: #000;
+            border-radius: 10px;
+            padding: 20px;
+            height: 280px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .signal-wave {
+            position: relative;
+            height: 200px;
+            width: 100%;
+            margin-top: 30px;
+        }
+        
+        .wave-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: rgba(100, 181, 246, 0.7);
+            animation: wave 3s infinite linear;
+        }
+        
+        .wave-line:nth-child(2) {
+            animation-delay: 0.5s;
+            opacity: 0.6;
+        }
+        
+        .wave-line:nth-child(3) {
+            animation-delay: 1s;
+            opacity: 0.4;
+        }
+        
+        @keyframes wave {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .signal-anomaly {
+            position: absolute;
+            top: 50px;
+            left: 40%;
+            width: 80px;
+            height: 60px;
+            background: rgba(239, 83, 80, 0.7);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+        
+        .diagnosis-results {
+            background: #f5f9ff;
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid #1565c0;
+        }
+        
+        .diagnosis-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .diagnosis-item:last-child {
+            border-bottom: none;
+        }
+        
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .status-normal {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .status-warning {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+        
+        .status-critical {
+            background: #ffebee;
+            color: #c62828;
+        }
+        
+        /* 底部报告区域 */
+        .report-section {
+            padding: 0 25px 25px 25px;
+        }
+        
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .report-tabs {
+            display: flex;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .report-tab {
+            padding: 12px 20px;
+            background: #f5f5f5;
+            border: none;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            margin-right: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .report-tab.active {
+            background: #0d47a1;
+            color: white;
+        }
+        
+        .report-content {
+            background: #f8fdff;
+            border-radius: 10px;
+            padding: 25px;
+            min-height: 200px;
+            border: 1px solid #bbdefb;
+        }
+        
+        .report-content.yi {
+            font-size: 18px;
+            line-height: 1.8;
+            direction: ltr;
+            text-align: left;
+        }
+        
+        .report-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .action-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+        
+        .action-btn.primary {
+            background: linear-gradient(to right, #0d47a1, #1565c0);
+            color: white;
+        }
+        
+        .action-btn.secondary {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 彝文特定样式 */
+        .yi-text {
+            font-family: "SimSun", "Microsoft YaHei", sans-serif;
+            color: #1a237e;
+        }
+        
+        .translation {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+            padding-left: 10px;
+            border-left: 3px solid #bbdefb;
+        }
+        
+        /* 语音控制 */
+        .voice-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+            padding: 15px;
+            background: #f3f9ff;
+            border-radius: 10px;
+        }
+        
+        .voice-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #0d47a1;
+            color: white;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 15px;
+            }
+            
+            .panel-left, .panel-right {
+                padding: 0;
+                border: none;
+            }
+            
+            .video-container, .signal-graph {
+                height: 220px;
+            }
+            
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 头部区域 -->
+        <header>
+            <div class="logo">
+                <div class="logo-icon">ꒊ</div>
+                <div class="logo-text">
+                    <h1>彝路迅瞳 <span class="yi-text">ꒊꇐꑓꄸ</span></h1>
+                    <p>山区基站智能巡检系统 | ꁧꁱꈬꇐꃅꎭꄉꁧꁱꏳꍏ</p>
+                </div>
+            </div>
+            <div class="language-controls">
+                <button class="language-btn active" id="btn-yi">彝语 ꆈꌠꉙ</button>
+                <button class="language-btn" id="btn-chinese">普通话</button>
+                <button class="language-btn" id="btn-voice">
+                    <i class="fas fa-microphone"></i> 语音输入
+                </button>
+                <button class="language-btn" id="btn-emergency">
+                    <i class="fas fa-exclamation-triangle"></i> 应急模式
+                </button>
+            </div>
+        </header>
+        
+        <!-- 主内容区域 -->
+        <div class="main-content">
+            <!-- 左侧面板：视觉检测 -->
+            <div class="panel-left">
+                <div class="panel-title">
+                    <i class="fas fa-video"></i>
+                    <span>实时视觉检测 | ꏯꀧꎭꄉꑓꄸꁧꁱ</span>
+                </div>
+                
+                <div class="video-container">
+                    <div class="video-placeholder">
+                        <i class="fas fa-satellite-dish"></i>
+                        <p>基站天线实时监控 | ꈬꇐꄮꒉꎭꄉꀧꁱ</p>
+                        <p style="font-size: 12px; margin-top: 10px; opacity: 0.8;">凉山州昭觉县基站#A03 | ꃆꎭꍔꐥꑣꈬꇐ#A03</p>
+                    </div>
+                </div>
+                
+                <div class="detection-results">
+                    <div class="result-item">
+                        <div class="result-label">
+                            <span>天线锈蚀检测 | ꈬꇐꎭꄉꌋꊐꁧꁱ</span>
+                            <span>92%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill confidence-92"></div>
+                        </div>
+                        <div class="translation">检测到严重锈蚀，建议立即维修</div>
+                    </div>
+                    
+                    <div class="result-item">
+                        <div class="result-label">
+                            <span>结构完整性 | ꈬꇐꅉꄉꁧꁱ</span>
+                            <span>87%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill confidence-92" style="width: 87%; background: linear-gradient(to right, #2196f3, #64b5f6);"></div>
+                        </div>
+                        <div class="translation">结构基本完好，局部需要加固</div>
+                    </div>
+                    
+                    <div class="result-item">
+                        <div class="result-label">
+                            <span>连接稳定性 | ꈬꇐꃅꄉꁧꁱ</span>
+                            <span>65%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill confidence-65" style="background: linear-gradient(to right, #ff9800, #ffb74d);"></div>
+                        </div>
+                        <div class="translation">连接不稳定，存在信号中断风险</div>
+                    </div>
+                    
+                    <div class="fault-points">
+                        <div class="fault-point critical">东南接口锈蚀 | ꈬꇐꎭꄉꌋꊐ</div>
+                        <div class="fault-point">螺栓松动 | ꈬꇐꃅꄉꁮꐨ</div>
+                        <div class="fault-point">涂层脱落 | ꈬꇐꄮꒉꎭꄉ</div>
+                    </div>
+                </div>
+                
+                <div class="voice-control">
+                    <button class="voice-btn" id="voice-command">
+                        <i class="fas fa-microphone-alt"></i>
+                    </button>
+                    <div>
+                        <div>彝语语音指令 | ꆈꌠꉙꏯꀧꎭꄉ</div>
+                        <div class="translation">说出"开始检测"、"拍照记录"、"生成报告"等指令</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 右侧面板：信号分析 -->
+            <div class="panel-right">
+                <div class="panel-title">
+                    <i class="fas fa-satellite"></i>
+                    <span>5G信号分析 | 5G ꈬꇐꃅꄉꁧꁱ</span>
+                </div>
+                
+                <div class="signal-graph">
+                    <div style="color: white; font-weight: bold;">5G信号波形图 | 5G ꈬꇐꃅꄉꁧꁱ</div>
+                    <div class="signal-wave">
+                        <div class="wave-line"></div>
+                        <div class="wave-line"></div>
+                        <div class="wave-line"></div>
+                        <div class="signal-anomaly">频段异常<br>Band 3</div>
+                    </div>
+                    <div style="color: #64b5f6; margin-top: 10px; display: flex; justify-content: space-between;">
+                        <span>信号强度: -78dBm | ꈬꇐꃅꄉ: -78dBm</span>
+                        <span>采样时间: 14:30 | ꈬꇐꄮꒉ: 14:30</span>
+                    </div>
+                </div>
+                
+                <div class="diagnosis-results">
+                    <div class="diagnosis-item">
+                        <span>故障诊断 | ꈬꇐꃅꄉꁧꁱ</span>
+                        <span class="status-badge status-critical">天线物理损坏</span>
+                    </div>
+                    <div class="diagnosis-item">
+                        <span>影响范围 | ꈬꇐꃅꄉꁧꁱ</span>
+                        <span class="status-badge status-critical">半径2公里</span>
+                    </div>
+                    <div class="diagnosis-item">
+                        <span>信号质量 | ꈬꇐꃅꄉꁧꁱ</span>
+                        <span class="status-badge status-warning">严重下降</span>
+                    </div>
+                    <div class="diagnosis-item">
+                        <span>建议措施 | ꈬꇐꃅꄉꁧꁱ</span>
+                        <span>立即更换东南侧天线接口</span>
+                    </div>
+                    <div class="diagnosis-item">
+                        <span>预计修复时间 | ꈬꇐꃅꄉꁧꁱ</span>
+                        <span class="status-badge status-normal">2小时内</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 报告区域 -->
+        <div class="report-section">
+            <div class="report-header">
+                <div class="report-tabs">
+                    <button class="report-tab active" id="tab-yi">彝文报告 | ꆈꌠꉙꀋꐚ</button>
+                    <button class="report-tab" id="tab-chinese">中文报告</button>
+                    <button class="report-tab" id="tab-compare">对比报告</button>
+                </div>
+                <div style="font-size: 14px; color: #666;">
+                    <i class="fas fa-clock"></i> 报告时间: 2025-04-15 14:45
+                </div>
+            </div>
+            
+            <div class="report-content yi" id="yi-report">
+                <p class="yi-text">ꈬꇐꃅꄉꁧꁱꀋꐚꀐꌠ：</p>
+                <p class="yi-text">1. ꈬꇐꎭꄉꌋꊐꁧꁱꀋꐚꀐꌠ，ꈬꇐꃅꄉꁧꁱꀋꐚꀐꌠꈬꇐꎭꄉꌋꊐꁧꁱꀋꐚꀐꌠ。</p>
+                <p class="yi-text">2. ꈬꇐꄮꒉꎭꄉꀧꁱꀋꐚꀐꌠ，ꈬꇐꃅꄉꁧꁱꀋꐚꀐꌠꈬꇐꄮꒉꎭꄉꀧꁱꀋꐚꀐꌠ。</p>
+                <p class="yi-text">3. ꈬꇐꅉꄉꁧꁱꀋꐚꀐꌠ，ꈬꇐꃅꄉꁧꁱꀋꐚꀐꌠꈬꇐꅉꄉꁧꁱꀋꐚꀐꌠ。</p>
+                <p class="yi-text">4. ꈬꇐꃅꄉꁧꁱꀋꐚꀐꌠ，ꈬꇐꃅꄉꁧꁱꀋꐚꀐꌠꈬꇐꃅꄉꁧꁱꀋꐚꀐꌠ。</p>
+                <p class="yi-text" style="margin-top: 20px; color: #c62828; font-weight: bold;">ꈬꇐꎭꄉꌋꊐꁧꁱꀋꐚꀐꌠ：ꈬꇐꎭꄉꌋꊐꁧꁱꀋꐚꀐꌠꈬꇐꎭꄉꌋꊐꁧꁱꀋꐚꀐꌠ。</p>
+                
+                <div class="translation" style="margin-top: 20px; background: #f0f7ff; padding: 15px; border-radius: 8px;">
+                    <strong>报告翻译：</strong><br>
+                    1. 基站天线锈蚀检测结果：东南侧接口发现严重锈蚀，置信度92%<br>
+                    2. 基站实时监控结果：检测到结构异常，建议立即检查<br>
+                    3. 基站结构完整性检测：整体结构基本完好，局部需加固<br>
+                    4. 基站连接稳定性检测：连接不稳定，存在信号中断风险<br>
+                    <br>
+                    <strong>紧急建议：</strong>立即更换东南侧天线接口，预计修复时间2小时
+                </div>
+            </div>
+            
+            <div class="report-content" id="chinese-report" style="display: none;">
+                <h3>基站智能巡检报告</h3>
+                <p><strong>检测时间：</strong>2025年4月15日 14:30-14:45</p>
+                <p><strong>检测地点：</strong>凉山彝族自治州昭觉县基站#A03</p>
+                
+                <h4>一、故障诊断结果</h4>
+                <ul>
+                    <li><strong>故障类型：</strong>天线物理损坏（锈蚀）</li>
+                    <li><strong>故障位置：</strong>东南侧天线接口</li>
+                    <li><strong>影响范围：</strong>半径2公里通信中断</li>
+                    <li><strong>置信度：</strong>92%</li>
+                </ul>
+                
+                <h4>二、检测详情</h4>
+                <ul>
+                    <li>视觉检测准确率：92%（优化后）</li>
+                    <li>5G信号异常频段：Band 3</li>
+                    <li>结构完整性：87%</li>
+                    <li>连接稳定性：65%</li>
+                </ul>
+                
+                <h4>三、维修建议</h4>
+                <p>1. 立即更换东南侧天线接口组件</p>
+                <p>2. 检查并加固所有连接螺栓</p>
+                <p>3. 对基站整体进行防锈处理</p>
+                <p>4. 修复后进行全面信号测试</p>
+                
+                <p><strong>预计修复时间：</strong>2小时内</p>
+                <p><strong>所需材料：</strong>天线接口组件、防锈漆、工具包</p>
+            </div>
+            
+            <div class="report-actions">
+                <button class="action-btn primary">
+                    <i class="fas fa-save"></i> 保存至本地库 | ꈬꇐꃅꄉꁧꁱ
+                </button>
+                <button class="action-btn secondary">
+                    <i class="fas fa-cloud-upload-alt"></i> 一键上传 | ꈬꇐꃅꄉꁧꁱ
+                </button>
+                <button class="action-btn secondary">
+                    <i class="fas fa-print"></i> 打印报告 | ꈬꇐꃅꄉꁧꁱ
+                </button>
+                <button class="action-btn secondary">
+                    <i class="fas fa-share-alt"></i> 分享 | ꈬꇐꃅꄉꁧꁱ
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 语言切换功能
+        document.getElementById('btn-yi').addEventListener('click', function() {
+            document.querySelectorAll('.language-btn').forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            
+            // 在实际应用中，这里会切换整个界面到彝语
+            alert('已切换至彝语界面 | ꆈꌠꉙꀋꐚꌠ');
+        });
+        
+        document.getElementById('btn-chinese').addEventListener('click', function() {
+            document.querySelectorAll('.language-btn').forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            
+            // 在实际应用中，这里会切换整个界面到中文
+            alert('已切换至普通话界面');
+        });
+        
+        // 报告标签切换
+        document.getElementById('tab-yi').addEventListener('click', function() {
+            document.querySelectorAll('.report-tab').forEach(tab => tab.classList.remove('active'));
+            this.classList.add('active');
+            
+            document.getElementById('yi-report').style.display = 'block';
+            document.getElementById('chinese-report').style.display = 'none';
+        });
+        
+        document.getElementById('tab-chinese').addEventListener('click', function() {
+            document.querySelectorAll('.report-tab').forEach(tab => tab.classList.remove('active'));
+            this.classList.add('active');
+            
+            document.getElementById('yi-report').style.display = 'none';
+            document.getElementById('chinese-report').style.display = 'block';
+        });
+        
+        document.getElementById('tab-compare').addEventListener('click', function() {
+            document.querySelectorAll('.report-tab').forEach(tab => tab.classList.remove('active'));
+            this.classList.add('active');
+            
+            document.getElementById('yi-report').style.display = 'block';
+            document.getElementById('chinese-report').style.display = 'block';
+        });
+        
+        // 语音指令功能
+        document.getElementById('voice-command').addEventListener('click', function() {
+            const commands = [
+                "开始检测 | ꈬꇐꃅꄉꁧꁱ",
+                "拍照记录 | ꈬꇐꄮꒉꎭꄉ",
+                "生成报告 | ꈬꇐꃅꄉꁧꁱꀋꐚ",
+                "分析信号 | ꈬꇐꃅꄉꁧꁱ",
+                "紧急求助 | ꈬꇐꃅꄉꁧꁱꀋꐚ"
+            ];
+            
+            const randomCommand = commands[Math.floor(Math.random() * commands.length)];
+            alert(`语音指令识别: ${randomCommand}`);
+        });
+        
+        // 应急模式
+        document.getElementById('btn-emergency').addEventListener('click', function() {
+            document.body.style.animation = 'emergencyPulse 1s infinite';
+            setTimeout(() => {
+                document.body.style.animation = '';
+            }, 5000);
+            
+            alert('应急模式已启动！已通知最近维修团队，预计30分钟内到达。\n\nꈬꇐꃅꄉꁧꁱꀋꐚꌠꀐ！ꈬꇐꃅꄉꁧꁱꀋꐚꌠꀐꈬꇐꃅꄉꁧꁱꀋꐚꌠꀐ。');
+        });
+        
+        // 添加应急模式的CSS动画
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes emergencyPulse {
+                0% { background-color: #1a237e; }
+                50% { background-color: #b71c1c; }
+                100% { background-color: #1a237e; }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // 模拟实时数据更新
+        setInterval(() => {
+            const timeElement = document.querySelector('.report-header div:last-child');
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('zh-CN', {hour12: false, hour: '2-digit', minute: '2-digit'});
+            timeElement.innerHTML = `<i class="fas fa-clock"></i> 报告时间: ${now.getFullYear()}-${(now.getMonth()+1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')} ${timeString}`;
+        }, 60000);
+    </script>
+</body>
+</html>

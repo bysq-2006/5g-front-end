@@ -39,7 +39,7 @@ $white: #FFFFFF;
 // 亮色模式映射
 $light-theme: (
   'bg-app': $gray-50,           // 应用背景
-  'bg-nav': $white,             // 导航栏背景
+  'bg-nav': $gray-800,             // 导航栏背景
   'bg-card': $white,            // 卡片/模块背景
   'bg-hover': $gray-50,         // 悬停背景
   
@@ -54,13 +54,16 @@ $light-theme: (
   'chart-fill': $color-primary-light,
   'chart-line': $color-primary,
   
+  'nav-text-color': $gray-100,     // 导航栏文字颜色
+  'nav-text-hover': $white,
+  
   'shadow': 0 4px 24px rgba(0, 0, 0, 0.04)
 );
 
 // 暗色模式映射
 $dark-theme: (
   'bg-app': $black,             // 应用背景 (纯黑或极深灰)
-  'bg-nav': $gray-900,          // 导航栏背景
+  'bg-nav': $gray-700,          // 导航栏背景
   'bg-card': $gray-900,         // 卡片/模块背景
   'bg-hover': $gray-800,        // 悬停背景
   
@@ -74,6 +77,9 @@ $dark-theme: (
   'accent-color': #0A84FF,      // 暗色模式下稍微调整蓝色的亮度
   'chart-fill': rgba($color-primary, 0.2), // 暗色模式下图表填充透明度降低
   'chart-line': #0A84FF,
+  
+  'nav-text-color': $gray-100,     // 导航栏文字颜色
+  'nav-text-hover': $white,
   
   'shadow': 0 4px 24px rgba(0, 0, 0, 0.4)
 );
