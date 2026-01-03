@@ -1,15 +1,15 @@
 <template>
   <div class="ai-control">
-    <h2 class="title">AI 识别</h2>
+    <h2 class="title">{{ $t('ai.aiRecognition') }}</h2>
     <button
       class="ai-btn"
       :disabled="isAnalyzing || imageCount === 0"
       @click="$emit('run-detection')"
     >
-      {{ isAnalyzing ? '识别中...' : `AI 识别 (${imageCount} 张图片)` }}
+      {{ isAnalyzing ? $t('ai.recognizing') : $t('ai.aiRecognitionBtn', { count: imageCount }) }}
     </button>
     <p class="description">
-      自动识别所有拍摄和截屏的图片中的故障
+      {{ $t('ai.autoDetectDesc') }}
     </p>
   </div>
 </template>

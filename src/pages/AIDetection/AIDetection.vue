@@ -1,8 +1,8 @@
 <template>
   <div class="ai-detection-page">
     <div class="page-header">
-      <h1 class="page-title">设备实时监测与AI智能故障识别</h1>
-      <p class="page-subtitle">设备实时监测与AI智能故障识别</p>
+      <h1 class="page-title">{{ $t('ai.pageTitle') }}</h1>
+      <p class="page-subtitle">{{ $t('ai.pageSubtitle') }}</p>
     </div>
 
     <ModeSwitcher />

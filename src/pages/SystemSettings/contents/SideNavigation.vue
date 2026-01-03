@@ -8,12 +8,13 @@
       active-class="active"
     >
       <span class="icon">{{ tab.icon }}</span>
-      <span class="label">{{ tab.label }}</span>
+      <span class="label">{{ $t('system.sideNav.' + tab.id) }}</span>
     </router-link>
   </div>
 </template>
 
 <script setup lang="ts">
+
 const tabs = [
   { id: 'language', label: '语言设置', icon: '🌐', routeName: 'LanguageSettings' },
   { id: 'personnel', label: '人员管理', icon: '👥', routeName: 'PersonnelManagement' },

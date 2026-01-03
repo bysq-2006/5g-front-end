@@ -1,10 +1,10 @@
 <template>
   <div class="alert-list-container">
     <div class="alert-list-header">
-      <span class="alert-list-title">实时告警</span>
-      <span class="alert-list-view-all" @click="goToAll">查看全部 →</span>
+      <span class="alert-list-title">{{ $t('dashboard.realtimeAlert') }}</span>
+      <span class="alert-list-view-all" @click="goToAll">{{ $t('dashboard.viewAll') }}</span>
     </div>
-    <div v-for="item in alerts" :key="item.id" class="alert-list-item">
+    <div v-for="item in alerts" :key="item.id" class="alert-list-item" @mouseover="onHover && onHover(item)">
       <div class="alert-list-item-left">
         <span :class="['alert-tag', item.level === '严重' ? 'alert-tag-danger' : 'alert-tag-warning']">
           {{ item.level }}
@@ -19,7 +19,6 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { defineProps } from 'vue'
 
 const props = defineProps<{
   alerts: Array<{
@@ -29,6 +28,7 @@ const props = defineProps<{
     desc: string
     time: string
   }>
+  onHover?: (item: any) => void
 }>()
 
 const router = useRouter()

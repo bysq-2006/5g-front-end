@@ -3,7 +3,7 @@
     <div class="top">
       <div class="info">
         <h3 class="name">{{ model.name }}</h3>
-        <div class="version">版本: {{ model.version }}</div>
+        <div class="version">{{ $t('system.modelVersion') }}: {{ model.version }}</div>
       </div>
       <span class="status-badge" :class="getStatusClass(model.status)">
         {{ model.status }}
@@ -12,18 +12,19 @@
 
     <div class="bottom">
       <div class="metric">
-        <div class="label">准确率</div>
+        <div class="label">{{ $t('system.modelAccuracy') }}</div>
         <div class="value">{{ model.accuracy }}</div>
       </div>
       <div class="actions">
-        <button class="btn-secondary">测试</button>
-        <button class="btn-primary">部署</button>
+        <button class="btn-secondary">{{ $t('system.test') }}</button>
+        <button class="btn-primary">{{ $t('system.deploy') }}</button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+
 defineProps<{
   model: {
     id: number;

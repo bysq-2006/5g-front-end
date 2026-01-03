@@ -1,6 +1,6 @@
 <template>
   <div class="fault-details-card">
-    <h3 class="section-title">故障点详情</h3>
+    <h3 class="section-title">{{ $t('patrol.faultDetailsTitle') }}</h3>
     <div class="fault-list">
       <div v-for="fault in faults" :key="fault.id" class="fault-item">
         <div class="fault-header">
@@ -9,19 +9,19 @@
               {{ fault.type }}
             </div>
             <span class="severity-text" :class="getSeverityClass(fault.severity)">
-              {{ fault.severity }}优先级
+              {{ fault.severity }}{{ $t('patrol.priority') }}
             </span>
           </div>
-          <span class="confidence">置信度: {{ fault.confidence }}%</span>
+          <span class="confidence">{{ $t('patrol.confidence') }}: {{ fault.confidence }}%</span>
         </div>
 
         <div class="fault-info">
           <div class="info-row">
-            <span class="label">位置:</span>
+            <span class="label">{{ $t('patrol.location') }}:</span>
             <span class="value">{{ fault.location }}</span>
           </div>
           <div class="info-row">
-            <span class="label">建议:</span>
+            <span class="label">{{ $t('patrol.suggestion') }}:</span>
             <p class="suggestion">{{ fault.suggestion }}</p>
           </div>
         </div>
@@ -31,6 +31,7 @@
 </template>
 
 <script setup lang="ts">
+
 import type { FaultDetail } from '../types';
 
 defineProps<{

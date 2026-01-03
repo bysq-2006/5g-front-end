@@ -7,15 +7,15 @@
   <div class="backdrop" v-if="isMenuOpen" @click="isMenuOpen = false"></div>
   <nav class="navigation" :class="{ 'is-open': isMenuOpen }">
     <div class="title">
-      <div class="logo">彝巡智检</div>
-      <div class="subtitle">山区基站智能巡检系统 </div>
+      <div class="logo">{{ $t('nav.logo') }}</div>
+      <div class="subtitle">{{ $t('nav.subtitle') }}</div>
     </div>
     <ol>
-      <li :class="{ active: $route.path === '/dashboard' }" @click="navigateTo('/dashboard')">仪表盘</li>
-      <li :class="{ active: $route.path === '/signal-sampling' }" @click="navigateTo('/signal-sampling')">信号采样</li>
-      <li :class="{ active: $route.path === '/ai-detection' }" @click="navigateTo('/ai-detection')">AI检测</li>
-      <li :class="{ active: $route.path === '/patrol-report' }" @click="navigateTo('/patrol-report')">巡检报告</li>
-      <li :class="{ active: $route.path === '/system-settings' }" @click="navigateTo('/system-settings')">系统设置</li>
+      <li :class="{ active: $route.path.startsWith('/dashboard') }" @click="navigateTo('/dashboard')">{{ $t('nav.dashboard') }}</li>
+      <li :class="{ active: $route.path.startsWith('/signal-sampling') }" @click="navigateTo('/signal-sampling')">{{ $t('nav.signalSampling') }}</li>
+      <li :class="{ active: $route.path.startsWith('/ai-detection') }" @click="navigateTo('/ai-detection')">{{ $t('nav.aiDetection') }}</li>
+      <li :class="{ active: $route.path.startsWith('/patrol-report') }" @click="navigateTo('/patrol-report')">{{ $t('nav.patrolReport') }}</li>
+      <li :class="{ active: $route.path.startsWith('/system-settings') }" @click="navigateTo('/system-settings')">{{ $t('nav.systemSettings') }}</li>
     </ol>
     <div class="theme-toggle-box">
       <button class="theme-toggle-btn" @click="toggleTheme">

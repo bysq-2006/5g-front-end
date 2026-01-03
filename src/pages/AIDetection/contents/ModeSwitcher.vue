@@ -5,14 +5,14 @@
       class="mode-btn"
       active-class="active"
     >
-      实时监测
+      {{ $t('ai.realtime') }}
     </router-link>
     <router-link
       to="/ai-detection/offline"
       class="mode-btn"
       active-class="active"
     >
-      离线回放
+      {{ $t('ai.offline') }}
     </router-link>
   </div>
 </template>

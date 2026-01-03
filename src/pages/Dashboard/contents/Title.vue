@@ -1,8 +1,8 @@
 <template>
   <div class="title">
-    <h1>系统概览</h1>
-    <h3>AI+5G通信基站智能巡检</h3>
-    <h3>当前时间：{{ currentTime }}</h3>
+    <h1>{{ $t('dashboard.overview') }}</h1>
+    <h3>{{ $t('dashboard.ai5g') }}</h3>
+    <h3>{{ $t('dashboard.currentTime') }}{{ currentTime }}</h3>
   </div>
 </template>
 

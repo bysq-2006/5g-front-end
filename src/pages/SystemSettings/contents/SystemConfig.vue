@@ -1,57 +1,57 @@
 <template>
   <div class="settings-content">
-    <h2 class="section-title">系统配置</h2>
+    <h2 class="section-title">{{ $t('system.systemConfigTitle') }}</h2>
 
     <div class="config-group">
-      <h3 class="group-title">设备配置</h3>
+      <h3 class="group-title">{{ $t('system.deviceConfig') }}</h3>
       <div class="device-list">
         <DeviceCard
-          name="5G模块 (FM650-CN)"
-          detail="固件版本: v2.3.1"
+          :name="$t('system.deviceName.5G模块')"
+          :detail="$t('system.deviceDetail.5G模块')"
           status="已连接"
         />
         <DeviceCard
-          name="无人机 (DJI M300 RTK)"
-          detail="电量: 78% | 信号强度: 优"
+          :name="$t('system.deviceName.无人机')"
+          :detail="$t('system.deviceDetail.无人机')"
           status="就绪"
         />
         <DeviceCard
-          name="履带式移动平台"
-          detail="电量: 87%"
+          :name="$t('system.deviceName.履带式移动平台')"
+          :detail="$t('system.deviceDetail.履带式移动平台')"
           status="就绪"
         />
       </div>
     </div>
 
     <div class="config-group">
-      <h3 class="group-title">通知设置</h3>
+      <h3 class="group-title">{{ $t('system.notificationSettings') }}</h3>
       <div class="notification-list">
         <ToggleSwitch
-          label="故障告警推送"
-          description="检测到故障时立即通知"
+          :label="$t('system.faultNotification')"
+          :description="$t('system.faultNotificationDesc')"
           v-model="faultNotification"
         />
         <ToggleSwitch
-          label="巡检完成提醒"
-          description="巡检任务完成后通知"
+          :label="$t('system.patrolNotification')"
+          :description="$t('system.patrolNotificationDesc')"
           v-model="patrolNotification"
         />
       </div>
     </div>
 
     <div class="config-group">
-      <h3 class="group-title">系统信息</h3>
+      <h3 class="group-title">{{ $t('system.systemInfo') }}</h3>
       <div class="system-info-card">
         <div class="info-row">
-          <span class="label">系统版本</span>
+          <span class="label">{{ $t('system.systemVersion') }}</span>
           <span class="value">v1.2.0</span>
         </div>
         <div class="info-row">
-          <span class="label">最后更新</span>
+          <span class="label">{{ $t('system.lastUpdate') }}</span>
           <span class="value">2024-01-15</span>
         </div>
         <div class="info-row">
-          <span class="label">存储使用</span>
+          <span class="label">{{ $t('system.storageUsage') }}</span>
           <span class="value">45.2 GB / 128 GB</span>
         </div>
       </div>
@@ -60,6 +60,7 @@
 </template>
 
 <script setup lang="ts">
+
 import { ref } from 'vue';
 import DeviceCard from './DeviceCard.vue';
 import ToggleSwitch from './ToggleSwitch.vue';

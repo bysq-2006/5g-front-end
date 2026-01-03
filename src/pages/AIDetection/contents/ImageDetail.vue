@@ -1,10 +1,10 @@
 <template>
   <div v-if="image" class="image-detail">
-    <h3 class="title">图片详情</h3>
+    <h3 class="title">{{ $t('ai.imageDetail') }}</h3>
     <img :src="image.url" alt="selected" class="detail-image" />
     
     <div v-if="image.detections && image.detections.length > 0" class="detections-list">
-      <div class="label">检测结果：</div>
+      <div class="label">{{ $t('ai.detectionResult') }}</div>
       <div
         v-for="detection in image.detections"
         :key="detection.id"
@@ -19,7 +19,7 @@
       </div>
     </div>
     <div v-else class="no-detections">
-      点击上方“AI 识别”按钮进行故障检测
+      {{ $t('ai.noDetection') }}
     </div>
   </div>
 </template>

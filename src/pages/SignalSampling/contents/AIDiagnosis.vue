@@ -6,7 +6,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
         </svg>
       </div>
-      <h2 class="title">{{ t('signal.aiDiagnosis') }}</h2>
+      <h2 class="title">{{ $t('signal.aiDiagnosis') }}</h2>
     </div>
 
     <div v-if="diagnosis" class="results-container">
@@ -24,24 +24,20 @@
           <div class="probability">{{ (topResult.probability * 100).toFixed(0) }}%</div>
         </div>
         <p class="description">{{ topResult.description }}</p>
-        <p class="suggestion">{{ t('signal.suggestion') }}: {{ topResult.suggestion }}</p>
+        <p class="suggestion">{{ $t('signal.suggestion') }}: {{ topResult.suggestion }}</p>
       </div>
 
       <div v-if="otherResults.length > 0" class="other-results">
-        <div class="other-label">其他可能原因：</div>
+        <div class="other-label">{{ $t('signal.otherDiagnosis') }}</div>
         <div v-for="(result, index) in otherResults" :key="index" class="other-item">
           <div class="other-header">
             <div class="other-type">{{ result.type }}</div>
             <div class="other-prob">{{ (result.probability * 100).toFixed(0) }}%</div>
           </div>
           <p class="other-desc">{{ result.description }}</p>
-          <p class="other-sugg">{{ t('signal.suggestion') }}: {{ result.suggestion }}</p>
+          <p class="other-sugg">{{ $t('signal.suggestion') }}: {{ result.suggestion }}</p>
         </div>
       </div>
-
-      <button class="generate-btn">
-        {{ t('signal.generateReport') }}
-      </button>
     </div>
 
     <div v-else class="empty-state">
@@ -50,7 +46,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
         </svg>
       </div>
-      <p class="empty-text">{{ t('signal.startAnalysis') }}</p>
+      <p class="empty-text">{{ $t('signal.startAnalysis') }}</p>
     </div>
   </div>
 </template>
@@ -58,16 +54,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-// Mock t function
-const t = (key: string) => {
-  const map: Record<string, string> = {
-    'signal.aiDiagnosis': 'AI 智能诊断',
-    'signal.suggestion': '建议',
-    'signal.generateReport': '生成诊断报告',
-    'signal.startAnalysis': '点击左侧"开始分析"进行诊断'
-  };
-  return map[key] || key;
-};
 
 interface DiagnosisResult {
   type: string;
@@ -77,17 +63,10 @@ interface DiagnosisResult {
 }
 
 const props = defineProps<{
-  diagnosis: string | null;
+  diagnosis: DiagnosisResult[] | null;
 }>();
 
-const parsedDiagnosis = computed(() => {
-  if (!props.diagnosis) return [];
-  try {
-    return JSON.parse(props.diagnosis) as DiagnosisResult[];
-  } catch (e) {
-    return [];
-  }
-});
+const parsedDiagnosis = computed(() => props.diagnosis || []);
 
 const topResult = computed(() => parsedDiagnosis.value[0]);
 const otherResults = computed(() => parsedDiagnosis.value.slice(1));
@@ -236,22 +215,6 @@ const isNormal = computed(() => topResult.value?.type === '正常');
       color: var(--text-secondary);
       opacity: 0.8;
     }
-  }
-}
-
-.generate-btn {
-  width: 100%;
-  padding: 8px 16px;
-  background-color: var(--accent-color);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: var(--color-primary-hover);
   }
 }
 

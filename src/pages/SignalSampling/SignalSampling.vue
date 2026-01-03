@@ -27,7 +27,7 @@
         
         <VoiceBroadcast v-model:enabled="voiceEnabled" />
         
-        <ServiceArea />
+        <ServiceArea :items="serviceAreaItems" />
       </div>
     </div>
   </div>
@@ -62,9 +62,21 @@ const frequency = ref('5G');
 const signalType = ref<'RSRP' | 'RSRQ' | 'SINR'>('RSRP');
 const signalHistory = ref<SignalData[]>([]);
 const analyzing = ref(false);
-const diagnosis = ref<string | null>(null);
+const diagnosis = ref<DiagnosisResult[] | null>(null);
 const currentSignalValue = ref<SignalData | null>(null);
 const voiceEnabled = ref(false);
+
+const serviceAreaItems = ref([
+  { label: '当前位置', value: '27.83°N 102.27°E' },
+  { label: '数据网络', value: 'CMNET' },
+  { label: '小区类型', value: 'NR SA' },
+  { label: 'NR-TAC', value: '12345' },
+  { label: 'NR-PCI', value: '256' },
+  { label: 'NR-CI', value: '65856256' },
+  { label: 'NR-ARFCN', value: '636000' },
+  { label: 'NR-FREQ', value: '3620 MHz' },
+  { label: 'NA-BAND', value: 'n78 (3300-3800 MHz)', fullWidth: true },
+]);
 
 const frequencyRanges = [
   { value: '5G', label: '5G (n78)', range: '3.3-3.8 GHz' },
@@ -111,10 +123,10 @@ const handleAnalyze = async () => {
 
   const possibleDiagnoses: DiagnosisResult[] = [
     {
-      type: '正常',
-      description: '信号质量良好，无异常衰减',
-      suggestion: '定期维护',
-      probability: 0.50
+      type: '干扰检测',
+      description: 'SINR值偏低，频段存在外部干扰',
+      suggestion: '调整天线方向或排查周边干扰源',
+      probability: 0.10
     },
     {
       type: '天线异常',
@@ -129,12 +141,6 @@ const handleAnalyze = async () => {
       probability: 0.12
     },
     {
-      type: '干扰检测',
-      description: 'SINR值偏低，频段存在外部干扰',
-      suggestion: '调整天线方向或排查周边干扰源',
-      probability: 0.10
-    },
-    {
       type: '设备老化',
       description: '信号整体强度缓慢下降，设备性能衰退',
       suggestion: '建议更换老化设备并重新校准',
@@ -143,12 +149,12 @@ const handleAnalyze = async () => {
   ];
 
   possibleDiagnoses.sort((a, b) => b.probability - a.probability);
-  diagnosis.value = JSON.stringify(possibleDiagnoses);
+  diagnosis.value = possibleDiagnoses;
   analyzing.value = false;
 };
 
 const clearHistory = () => {
-  signalHistory.value = [];
+  diagnosis.value = null;
 };
 
 // Lifecycle

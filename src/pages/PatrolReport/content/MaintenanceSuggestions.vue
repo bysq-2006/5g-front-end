@@ -1,30 +1,31 @@
 <template>
   <div class="suggestions-card">
-    <h3 class="section-title">维修建议</h3>
+    <h3 class="section-title">{{ $t('patrol.maintenanceSuggestionsTitle') }}</h3>
     <div class="suggestion-list">
       <div class="suggestion-item">
         <div class="index-circle">
           <span>1</span>
         </div>
-        <p class="text">优先处理东南侧天线接口锈蚀问题，建议在下次巡检前完成更换</p>
+        <p class="text">{{ $t('patrol.suggestion1') }}</p>
       </div>
       <div class="suggestion-item">
         <div class="index-circle">
           <span>2</span>
         </div>
-        <p class="text">西南侧支架连接处松动可安排在例行维护时处理</p>
+        <p class="text">{{ $t('patrol.suggestion2') }}</p>
       </div>
       <div class="suggestion-item">
         <div class="index-circle">
           <span>3</span>
         </div>
-        <p class="text">建议对整个基站进行全面防腐处理，预防未来锈蚀问题</p>
+        <p class="text">{{ $t('patrol.suggestion3') }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+
 // Static content for now as per React code
 </script>
 

@@ -1,38 +1,38 @@
 <template>
   <div class="settings-content">
-    <h2 class="section-title">语言设置</h2>
+    <h2 class="section-title">{{ $t('system.languageSettingsTitle') }}</h2>
 
     <div class="setting-group">
-      <h3 class="group-title">界面语言</h3>
+      <h3 class="group-title">{{ $t('system.interfaceLanguage') }}</h3>
       <div class="language-options">
         <LanguageOption
           icon="🇨🇳"
           name="中文"
           :isActive="currentLang === 'zh'"
-          :statusText="currentLang === 'zh' ? '当前使用' : '点击切换'"
-          @select="currentLang = 'zh'"
+          :statusText="currentLang === 'zh' ? $t('system.langStatus.current') : $t('system.langStatus.switch')"
+          @select="setLanguage('zh')"
         />
         <LanguageOption
           icon="🌿"
-          name="彝文"
+          name="ꆈꌠꈌ"
           :isActive="currentLang === 'yi'"
-          :statusText="currentLang === 'yi' ? '当前使用' : '点击切换'"
-          @select="currentLang = 'yi'"
+          :statusText="currentLang === 'yi' ? $t('system.langStatus.current') : $t('system.langStatus.switch')"
+          @select="setLanguage('yi')"
         />
       </div>
     </div>
 
     <div class="setting-group">
-      <h3 class="group-title">语音播报</h3>
+      <h3 class="group-title">{{ $t('system.voiceBroadcast') }}</h3>
       <div class="toggles">
         <ToggleSwitch
-          label="启用语音播报"
-          description="检测结果将以语音形式播报"
+          :label="$t('system.enableVoiceBroadcast')"
+          :description="$t('system.voiceBroadcastDesc')"
           v-model="voiceEnabled"
         />
         <ToggleSwitch
-          label="双语播报"
-          description="同时使用中文和彝语播报"
+          :label="$t('system.bilingualBroadcast')"
+          :description="$t('system.bilingualBroadcastDesc')"
           v-model="bilingualEnabled"
         />
       </div>
@@ -44,10 +44,16 @@
 import { ref } from 'vue';
 import LanguageOption from './LanguageOption.vue';
 import ToggleSwitch from './ToggleSwitch.vue';
-
-const currentLang = ref('zh');
+import { useI18n } from 'vue-i18n';
+const locale = useI18n().locale;
+const currentLang = ref(locale.value);
 const voiceEnabled = ref(true);
 const bilingualEnabled = ref(false);
+
+const setLanguage = (lang: string) => {
+  currentLang.value = lang;
+  locale.value = lang;
+};
 </script>
 
 <style lang="scss" scoped>

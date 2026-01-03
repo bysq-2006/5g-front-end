@@ -1,10 +1,10 @@
 <template>
   <div class="signal-detection card">
     <div class="header">
-      <h2 class="title">{{ t('signal.realtimeDetection') }}</h2>
+      <h2 class="title">{{ $t('signal.realtimeDetection') }}</h2>
       <div class="status">
         <span class="status-dot"></span>
-        <span class="status-text">{{ t('signal.running') }}</span>
+        <span class="status-text">{{ $t('signal.running') }}</span>
       </div>
     </div>
 
@@ -21,7 +21,7 @@
       </div>
 
       <div class="current-value">
-        <span class="label">{{ t('signal.currentValue') }} ({{ signalType }})</span>
+        <span class="label">{{ $t('signal.currentValue') }} ({{ signalType }})</span>
         <div class="value-display">
           <span :class="['value', signalType.toLowerCase()]">
             {{ formattedValue }}
@@ -41,36 +41,25 @@
     <div class="stats-grid">
       <div class="stat-item">
         <div class="stat-value text-blue">{{ frequencyRange }}</div>
-        <div class="stat-label">{{ t('signal.frequency') }}</div>
+        <div class="stat-label">{{ $t('signal.frequency') }}</div>
       </div>
       <div class="stat-item">
         <div class="stat-value text-green">1.2ms</div>
-        <div class="stat-label">{{ t('signal.delay') }}</div>
+        <div class="stat-label">{{ $t('signal.delay') }}</div>
       </div>
       <div class="stat-item">
         <div class="stat-value text-purple">{{ duration }}s</div>
-        <div class="stat-label">{{ t('signal.duration') }}</div>
+        <div class="stat-label">{{ $t('signal.duration') }}</div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+
 import { computed } from 'vue';
 import SignalStrengthChart from '@/components/SignalStrengthChart.vue';
 
-// Mock t function if not available
-const t = (key: string) => {
-  const map: Record<string, string> = {
-    'signal.realtimeDetection': '实时信号检测',
-    'signal.running': '运行中',
-    'signal.currentValue': '当前数值',
-    'signal.frequency': '频段范围',
-    'signal.delay': '网络时延',
-    'signal.duration': '采样时长'
-  };
-  return map[key] || key;
-};
 
 const props = defineProps<{
   signalType: 'RSRP' | 'RSRQ' | 'SINR';

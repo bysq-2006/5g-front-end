@@ -1,6 +1,6 @@
 <template>
   <div class="report-list-card">
-    <h2 class="title">报告列表</h2>
+    <h2 class="title">{{ $t('patrol.reportListTitle') }}</h2>
     <div class="list">
       <div
         v-for="report in reports"
@@ -14,13 +14,13 @@
             {{ report.station }}
           </h3>
           <span class="status-badge" :class="getStatusClass(report.status)">
-            {{ report.status }}
+            {{ $t('patrol.status.' + report.status) }}
           </span>
         </div>
         <div class="item-date">{{ report.date }}</div>
         <div class="item-footer">
           <span>{{ report.inspector }}</span>
-          <span>{{ report.faults }} 处故障</span>
+          <span>{{ report.faults }} {{ $t('patrol.faultCount') }}</span>
         </div>
       </div>
     </div>
@@ -28,6 +28,7 @@
 </template>
 
 <script setup lang="ts">
+
 import type { Report } from '../types';
 
 defineProps<{
@@ -88,7 +89,7 @@ const getStatusClass = (status: string) => {
   border: 1px solid transparent;
 
   &:hover {
-    background: var(--gray-100);
+    background: var(--bg-card-blue);
     [data-theme='dark'] & {
       background: var(--gray-700);
     }

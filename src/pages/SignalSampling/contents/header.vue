@@ -2,8 +2,8 @@
 <div class="main">
   <div class="header-left">
     <div class="title">
-      <h1>5G信号采样分析</h1>
-      <h3>基于5G通信模块的智能信号采样与AI实时诊断</h3>
+      <h1>{{ $t('signal.headerTitle') }}</h1>
+      <h3>{{ $t('signal.headerSubtitle') }}</h3>
     </div>
   </div>
   <div class="header-right">
@@ -36,6 +36,7 @@
 </template>
 
 <script setup name="Header" lang="ts">
+
 const props = defineProps<{
   carrierName: string, // 运营商中文名
   carrierEn: string,   // 运营商英文名

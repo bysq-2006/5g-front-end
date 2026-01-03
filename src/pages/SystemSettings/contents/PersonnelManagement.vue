@@ -1,8 +1,8 @@
 <template>
   <div class="settings-content">
     <div class="header">
-      <h2 class="section-title">人员管理</h2>
-      <button class="btn-primary">添加巡检员</button>
+      <h2 class="section-title">{{ $t('system.personnelManagementTitle') }}</h2>
+      <button class="btn-primary">{{ $t('system.addInspector') }}</button>
     </div>
 
     <div class="inspector-list">
@@ -16,6 +16,7 @@
 </template>
 
 <script setup lang="ts">
+
 import { ref } from 'vue';
 import InspectorCard from './InspectorCard.vue';
 

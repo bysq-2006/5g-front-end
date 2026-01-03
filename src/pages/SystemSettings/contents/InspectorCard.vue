@@ -12,16 +12,17 @@
     <div class="right">
       <div class="stats">
         <div class="count">{{ inspector.inspections }}</div>
-        <div class="label">巡检次数</div>
+        <div class="label">{{ $t('system.inspectionCount') }}</div>
       </div>
       <span class="status-badge" :class="{ online: inspector.status === '在线' }">
-        {{ inspector.status }}
+        {{ $t('system.inspectorStatus.' + inspector.status) }}
       </span>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+
 defineProps<{
   inspector: {
     id: number;

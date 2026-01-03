@@ -7,14 +7,20 @@
       </svg>
     </div>
     <div class="info">
-      <div class="title">紧急响应</div>
-      <div class="desc">快速启动应急响应流程</div>
+      <div class="title">{{ $t('dashboard.emergency') }}</div>
+      <div class="desc">{{ $t('dashboard.emergencyDesc') }}</div>
     </div>
-    <button class="action-btn">启动应急流程</button>
+    <button class="action-btn" @click="handleEmergency">{{ $t('dashboard.emergencyBtn') }}</button>
   </div>
 </template>
 
 <script setup>
+const props = defineProps({
+  onEmergency: {
+    type: Function,
+    default: null
+  }
+})
 </script>
 
 <style scoped lang="scss">

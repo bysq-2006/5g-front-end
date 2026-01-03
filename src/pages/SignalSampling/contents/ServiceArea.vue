@@ -1,8 +1,8 @@
 <template>
   <div class="service-area card">
-    <h2 class="title">{{ t('signal.serviceArea') }}</h2>
+    <h2 class="title">{{ $t('signal.serviceArea') }}</h2>
     <div class="grid">
-      <div v-for="(item, index) in items" :key="index" :class="['grid-item', { 'col-span-2': item.fullWidth }]">
+      <div v-for="(item, index) in displayItems" :key="index" :class="['grid-item', { 'col-span-2': item.fullWidth }]">
         <div class="label">{{ item.label }}</div>
         <div class="value">{{ item.value }}</div>
       </div>
@@ -11,30 +11,15 @@
 </template>
 
 <script setup lang="ts">
+
 import { computed } from 'vue';
 
-// Mock t function
-const t = (key: string) => {
-  const map: Record<string, string> = {
-    'signal.serviceArea': '服务小区信息',
-    'signal.myLocation': '当前位置',
-    'signal.dataNetwork': '数据网络',
-    'signal.cellType': '小区类型'
-  };
-  return map[key] || key;
-};
 
-const items = computed(() => [
-  { label: t('signal.myLocation'), value: '27.83°N 102.27°E' },
-  { label: t('signal.dataNetwork'), value: 'CMNET' },
-  { label: t('signal.cellType'), value: 'NR SA' },
-  { label: 'NR-TAC', value: '12345' },
-  { label: 'NR-PCI', value: '256' },
-  { label: 'NR-CI', value: '65856256' },
-  { label: 'NR-ARFCN', value: '636000' },
-  { label: 'NR-FREQ', value: '3620 MHz' },
-  { label: 'NA-BAND', value: 'n78 (3300-3800 MHz)', fullWidth: true },
-]);
+const props = defineProps<{
+  items: Array<{ label: string; value: string; fullWidth?: boolean }>;
+}>();
+
+const displayItems = computed(() => props.items || []);
 </script>
 
 <style scoped lang="scss">

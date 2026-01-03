@@ -4,7 +4,7 @@
     <div v-if="mode === 'realtime'" class="monitor-panel">
       <div class="panel-header">
         <div class="header-left">
-          <h2>实时画面</h2>
+          <h2>{{ $t('ai.realtimeScreen') }}</h2>
           <div class="status-indicator">
             <button
               class="connect-btn"
@@ -15,11 +15,11 @@
               }"
               @click="toggleConnection"
             >
-              {{ isStreaming ? '断开' : '连接' }}
+              {{ isStreaming ? $t('ai.disconnect') : $t('ai.connect') }}
             </button>
             <span class="status-dot" :class="{ 'active': isStreaming, 'error': isOffline, 'standby': !isStreaming && !isOffline }"></span>
             <span class="status-text">
-              {{ isStreaming ? '运行中' : isOffline ? '设备离线' : '未连接' }}
+              {{ isStreaming ? $t('ai.running') : isOffline ? $t('ai.offlineDevice') : $t('ai.notConnected') }}
             </span>
           </div>
         </div>
@@ -33,29 +33,29 @@
               <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
               </svg>
-              <p>设备未连接</p>
+              <p>{{ $t('ai.deviceNotConnected') }}</p>
             </div>
           </div>
           <div v-if="isRecording" class="recording-badge">
             <span class="recording-dot"></span>
-            <span>录制中</span>
+            <span>{{ $t('ai.recording') }}</span>
           </div>
         </div>
       </div>
 
       <div class="controls">
         <template v-if="!isStreaming">
-          <button class="btn btn-primary" @click="startCamera">启动画面</button>
+          <button class="btn btn-primary" @click="startCamera">{{ $t('ai.startScreen') }}</button>
         </template>
         <template v-else>
-          <button class="btn btn-success" @click="captureImage">拍照</button>
-          <button class="btn btn-warning" @click="disconnectDevice">暂停</button>
+          <button class="btn btn-success" @click="captureImage">{{ $t('ai.capture') }}</button>
+          <button class="btn btn-warning" @click="disconnectDevice">{{ $t('ai.pause') }}</button>
           <button
             class="btn"
             :class="isRecording ? 'btn-danger' : 'btn-purple'"
             @click="toggleRecording"
           >
-            {{ isRecording ? '停止录制' : '开始录制' }}
+            {{ isRecording ? $t('ai.stopRecording') : $t('ai.startRecording') }}
           </button>
         </template>
       </div>

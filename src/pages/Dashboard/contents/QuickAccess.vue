@@ -1,6 +1,6 @@
 <template>
   <div class="quick-access">
-    <h3 class="section-title">快速入口</h3>
+    <h3 class="section-title">{{ $t('dashboard.quickAccess') }}</h3>
     <div class="access-grid">
       <div
         v-for="(item, index) in items"

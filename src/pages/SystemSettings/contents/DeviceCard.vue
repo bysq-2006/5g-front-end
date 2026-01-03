@@ -4,7 +4,7 @@
       <div class="name">{{ name }}</div>
       <div class="detail">{{ detail }}</div>
     </div>
-    <span class="status-badge" :class="statusClass">{{ status }}</span>
+    <span class="status-badge" :class="statusClass">{{ $t('system.deviceStatus.' + status) }}</span>
   </div>
 </template>
 

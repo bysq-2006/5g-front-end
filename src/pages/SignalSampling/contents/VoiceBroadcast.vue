@@ -1,29 +1,22 @@
 <template>
   <div class="voice-broadcast card">
     <div class="header">
-      <h3 class="title">{{ t('signal.voiceBroadcast') }}</h3>
+      <h3 class="title">{{ $t('signal.voiceBroadcast') }}</h3>
       <label class="switch">
         <input type="checkbox" :checked="enabled" @change="toggle">
         <span class="slider round"></span>
       </label>
     </div>
     <p class="description">
-      {{ t('signal.voiceBroadcastDesc') }}
+      {{ $t('signal.voiceBroadcastDesc') }}
     </p>
   </div>
 </template>
 
 <script setup lang="ts">
+
 import { defineProps, defineEmits } from 'vue';
 
-// Mock t function
-const t = (key: string) => {
-  const map: Record<string, string> = {
-    'signal.voiceBroadcast': '语音播报',
-    'signal.voiceBroadcastDesc': '开启后将实时播报信号异常情况和诊断建议'
-  };
-  return map[key] || key;
-};
 
 const props = defineProps<{
   enabled: boolean;

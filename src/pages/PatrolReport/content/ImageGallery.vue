@@ -1,9 +1,9 @@
 <template>
   <div class="image-gallery-card">
     <div class="header">
-      <h3 class="section-title">故障图像</h3>
+      <h3 class="section-title">{{ $t('patrol.faultImages') }}</h3>
       <button v-if="faults.length > 0" class="clear-btn" @click="$emit('clear')">
-        清除数据
+        {{ $t('patrol.clearData') }}
       </button>
     </div>
 
@@ -11,18 +11,18 @@
       <svg class="empty-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
       </svg>
-      <p>暂无故障图像，请先在 AI 检测页面进行识别</p>
+      <p>{{ $t('patrol.noFaultImages') }}</p>
     </div>
 
     <div v-else class="gallery-grid">
       <div v-for="fault in faults" :key="fault.id" class="gallery-item">
         <div class="image-wrapper">
-          <img :src="fault.image" :alt="`故障: ${fault.type}`" />
+          <img :src="fault.image" :alt="$t('patrol.faultAlt', { type: fault.type })" />
           <div class="overlay">
             <div class="overlay-content">
               <div class="tag" :class="getTypeClass(fault.type)">{{ fault.type }}</div>
               <div class="position">{{ fault.position }}</div>
-              <div class="confidence">置信度: {{ fault.confidence.toFixed(0) }}%</div>
+              <div class="confidence">{{ $t('patrol.confidence') }}: {{ fault.confidence.toFixed(0) }}%</div>
             </div>
           </div>
         </div>
@@ -32,6 +32,7 @@
 </template>
 
 <script setup lang="ts">
+
 import type { InspectionFault } from '../types';
 
 defineProps<{

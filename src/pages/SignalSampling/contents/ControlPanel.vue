@@ -1,6 +1,6 @@
 <template>
   <div class="control-panel card">
-    <h2 class="title">{{ t('signal.control') }}</h2>
+    <h2 class="title">{{ $t('signal.control') }}</h2>
     
     <div class="frequency-ranges">
       <button
@@ -20,32 +20,19 @@
         :disabled="analyzing"
         @click="emit('analyze')"
       >
-        {{ analyzing ? t('signal.analyzing') : t('signal.analysis') }}
+        {{ analyzing ? $t('signal.analyzing') : $t('signal.analysis') }}
       </button>
       <button
         class="action-btn clear-btn"
         @click="emit('clearHistory')"
       >
-        {{ t('signal.clearHistory') }}
+        {{ $t('signal.clearHistory') }}
       </button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue';
-
-// Mock t function
-const t = (key: string) => {
-  const map: Record<string, string> = {
-    'signal.control': '控制面板',
-    'signal.analyzing': '分析中...',
-    'signal.analysis': '开始分析',
-    'signal.clearHistory': '清除历史'
-  };
-  return map[key] || key;
-};
-
 const props = defineProps<{
   frequency: string;
   analyzing: boolean;

@@ -3,12 +3,13 @@
     <div class="icon">{{ icon }}</div>
     <div class="info">
       <div class="name">{{ name }}</div>
-      <div class="status" :class="{ 'text-secondary': !isActive }">{{ statusText }}</div>
+      <div class="status" :class="{ 'text-secondary': !isActive }">{{ $t(statusText) }}</div>
     </div>
   </button>
 </template>
 
 <script setup lang="ts">
+
 defineProps<{
   icon: string;
   name: string;

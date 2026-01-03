@@ -2,49 +2,56 @@
   <div class="dashboard-cards">
     <div class="card">
       <div class="card-header">
-        <span class="card-label">基站</span>
+        <span class="card-label">{{ $t('dashboard.baseStation') }}</span>
         <span class="card-tag add">{{ baseStationChange }}</span>
       </div>
       <div class="card-value">{{ baseStationCount }}</div>
-      <div class="card-desc">基站数量</div>
+      <div class="card-desc">{{ $t('dashboard.baseStationCount') }}</div>
     </div>
     <div class="card">
       <div class="card-header">
-        <span class="card-label warn">告警</span>
+        <span class="card-label warn">{{ $t('dashboard.alert') }}</span>
         <span class="card-tag warn">{{ warningChange }}</span>
       </div>
       <div class="card-value">{{ warningCount }}</div>
-      <div class="card-desc">待处理告警</div>
+      <div class="card-desc">{{ $t('dashboard.pendingAlert') }}</div>
     </div>
     <div class="card">
       <div class="card-header">
-        <span class="card-label">在线</span>
-        <span class="card-tag add">{{ onlinePercent }}</span>
+        <span class="card-label">{{ $t('dashboard.online') }}</span>
+        <span class="card-tag add">{{ computedOnlinePercent }}</span>
       </div>
       <div class="card-value">{{ onlineCount }}</div>
-      <div class="card-desc">在线</div>
+      <div class="card-desc">{{ $t('dashboard.online') }}</div>
     </div>
     <div class="card">
       <div class="card-header">
-        <span class="card-label">巡检</span>
+        <span class="card-label">{{ $t('dashboard.patrol') }}</span>
         <span class="card-tag add">{{ patrolStatus }}</span>
       </div>
       <div class="card-value">{{ patrolTime }}</div>
-      <div class="card-desc">上次巡检</div>
+      <div class="card-desc">{{ $t('dashboard.lastPatrol') }}</div>
     </div>
   </div>
 </template>
 
 <script setup>
+import { computed } from 'vue';
+
 const props = defineProps({
   baseStationCount: Number,      // 基站数量
   baseStationChange: String,     // 基站变化（如+2）
   warningCount: Number,          // 告警数量
   warningChange: String,         // 告警变化（如-1）
   onlineCount: String,           // 在线数量（如21/23）
-  onlinePercent: String,         // 在线百分比（如91.3%）
   patrolTime: String,            // 上次巡检时间（如2小时前）
   patrolStatus: String           // 巡检状态（如正常）
+});
+
+const computedOnlinePercent = computed(() => {
+  const [online, total] = props.onlineCount.split('/').map(Number);
+  if (total === 0) return '0%';
+  return ((online / total) * 100).toFixed(1) + '%';
 });
 </script>
 

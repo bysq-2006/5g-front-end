@@ -1,8 +1,8 @@
 <template>
   <div class="settings-content">
     <div class="header">
-      <h2 class="section-title">模型管理</h2>
-      <button class="btn-purple">上传新模型</button>
+      <h2 class="section-title">{{ $t('system.modelManagementTitle') }}</h2>
+      <button class="btn-purple">{{ $t('system.uploadModel') }}</button>
     </div>
 
     <div class="model-list">
@@ -14,22 +14,23 @@
     </div>
 
     <div class="training-section">
-      <h3 class="section-subtitle">模型训练</h3>
+      <h3 class="section-subtitle">{{ $t('system.modelTraining') }}</h3>
       <div class="training-status">
         <div class="progress-header">
-          <span class="label">当前训练进度</span>
+          <span class="label">{{ $t('system.trainingProgress') }}</span>
           <span class="percent">78%</span>
         </div>
         <div class="progress-bar">
           <div class="fill" style="width: 78%"></div>
         </div>
-        <p class="desc">正在训练“凉山锈蚀故障特色数据集”，预计剩余时间 12 分钟</p>
+        <p class="desc">{{ $t('system.trainingDesc') }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+
 import { ref } from 'vue';
 import ModelCard from './ModelCard.vue';
 
