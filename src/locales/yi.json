@@ -181,5 +181,13 @@
         "duration": "ꌕꌠꌺꈎ",
         "voiceBroadcast": "ꂷꈄꁡꏂ",
         "voiceBroadcastDesc": "ꏂꏹꄉꋍꂻꂷꇋꊿꍣꆹꐊꇁꊾꅐꁡꏂ"
+    },
+    "login": {
+        "title": "ꇁꃅ",
+        "username": "ꂷꈄꂷ",
+        "password": "ꂷꈄꂷ",
+        "usernamePlaceholder": "ꂷꈄꂷ ꂷꈄꂷ",
+        "passwordPlaceholder": "ꂷꈄꂷ ꂷꈄꂷ",
+        "loginButton": "ꇁꃅ"
     }
 }

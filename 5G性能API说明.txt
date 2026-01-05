@@ -1,0 +1,23 @@
+GET http://192.168.3.200:5000/ccinfo
+
+{
+  "IsServiceCell": "Service Cell", 
+  "band": "78", 
+  "bandwidth": "100MHz", 
+  "cellid": "CFA016008", 
+  "mcc": "460", 
+  "mcc_desc": "\u4e2d\u56fd", 
+  "mnc": "11", 
+  "mnc_desc": "\u4e2d\u56fd\u7535\u4fe1", 
+  "narfcn": "99240", 
+  "physicalcellId": "19B", 
+  "rat": "NR-RAN", 
+  "rat_desc": "5G\u65b0\u65e0\u7ebf\u63a5\u5165\u7f51\u7edc", 
+  "rxlev": "59", 
+  "ss-rsrp": -98.0, 
+  "ss-rsrq": -7.0, 
+  "ss-sinr": 6.5, 
+  "tac": "CFAA03", 
+  "timestamp": "2026-01-05T17:27:00"
+}
+

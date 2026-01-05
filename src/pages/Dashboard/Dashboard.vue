@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard">
-    <Title />
+    <Header />
     <EmergencyResponse />
     <QuickAccess :items="quickAccessItems" />
     <DashboardCards :baseStationCount="128" baseStationChange="+2" :warningCount="5" warningChange="-1"
@@ -11,7 +11,7 @@
 
 
 <script setup name="Dashboard">
-import Title from './contents/Title.vue';
+import Header from './contents/Header.vue';
 import EmergencyResponse from './contents/EmergencyResponse.vue';
 import DashboardCards from './contents/DashboardCards.vue';
 import AlertList from './contents/AlertList.vue';

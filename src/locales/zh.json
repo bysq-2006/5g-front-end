@@ -181,5 +181,13 @@
     "duration": "采样时长",
     "voiceBroadcast": "语音播报",
     "voiceBroadcastDesc": "开启后将实时播报信号异常情况和诊断建议"
+  },
+  "login": {
+    "title": "登录",
+    "username": "用户名",
+    "password": "密码",
+    "usernamePlaceholder": "请输入用户名",
+    "passwordPlaceholder": "请输入密码",
+    "loginButton": "登录"
   }
 }
