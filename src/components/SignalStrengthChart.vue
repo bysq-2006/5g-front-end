@@ -24,7 +24,7 @@ const initChart = () => {
 
   const option: echarts.EChartsOption = {
     animation: true,
-    animationDuration: 300,
+    animationDuration: 200,
     tooltip: {
       trigger: 'axis',
       formatter: function (params: any) {

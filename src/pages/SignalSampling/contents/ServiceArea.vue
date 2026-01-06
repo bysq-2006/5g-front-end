@@ -11,15 +11,19 @@
 </template>
 
 <script setup lang="ts">
+import { defineProps } from 'vue';
 
-import { computed } from 'vue';
-
+interface ServiceItem {
+  label: string;
+  value: string;
+  fullWidth?: boolean;
+}
 
 const props = defineProps<{
-  items: Array<{ label: string; value: string; fullWidth?: boolean }>;
+  items: ServiceItem[];
 }>();
 
-const displayItems = computed(() => props.items || []);
+const displayItems = props.items;
 </script>
 
 <style scoped lang="scss">

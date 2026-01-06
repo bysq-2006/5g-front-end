@@ -10,12 +10,8 @@
 
     <div class="controls">
       <div class="type-buttons">
-        <button
-          v-for="type in ['RSRP', 'RSRQ', 'SINR']"
-          :key="type"
-          :class="['type-btn', { active: signalType === type }, type.toLowerCase()]"
-          @click="setSignalType(type)"
-        >
+        <button v-for="type in ['RSRP', 'RSRQ', 'SINR']" :key="type"
+          :class="['type-btn', { active: signalType === type }, type.toLowerCase()]" @click="setSignalType(type)">
           {{ type }}
         </button>
       </div>
@@ -32,10 +28,7 @@
     </div>
 
     <div class="chart-wrapper">
-      <SignalStrengthChart 
-        :dataList="chartData" 
-        :color="chartColor"
-      />
+      <SignalStrengthChart :dataList="chartData" :color="chartColor" />
     </div>
 
     <div class="stats-grid">
@@ -59,7 +52,6 @@
 
 import { computed } from 'vue';
 import SignalStrengthChart from '@/components/SignalStrengthChart.vue';
-
 
 const props = defineProps<{
   signalType: 'RSRP' | 'RSRQ' | 'SINR';
@@ -102,7 +94,7 @@ const unit = computed(() => {
 });
 
 const duration = computed(() => {
-  return props.signalHistory.length;
+  return props.signalHistory ? props.signalHistory.length : 0;
 });
 </script>
 
@@ -174,9 +166,18 @@ const duration = computed(() => {
 
       &.active {
         color: #fff;
-        &.rsrp { background-color: #3b82f6; }
-        &.rsrq { background-color: #8b5cf6; }
-        &.sinr { background-color: #10b981; }
+
+        &.rsrp {
+          background-color: #3b82f6;
+        }
+
+        &.rsrq {
+          background-color: #8b5cf6;
+        }
+
+        &.sinr {
+          background-color: #10b981;
+        }
       }
     }
   }
@@ -201,9 +202,18 @@ const duration = computed(() => {
     .value {
       font-size: 24px;
       font-weight: 700;
-      &.rsrp { color: #3b82f6; }
-      &.rsrq { color: #8b5cf6; }
-      &.sinr { color: #10b981; }
+
+      &.rsrp {
+        color: #3b82f6;
+      }
+
+      &.rsrq {
+        color: #8b5cf6;
+      }
+
+      &.sinr {
+        color: #10b981;
+      }
     }
 
     .unit {
@@ -239,9 +249,17 @@ const duration = computed(() => {
       font-weight: 700;
       margin-bottom: 4px;
 
-      &.text-blue { color: #60a5fa; }
-      &.text-green { color: #4ade80; }
-      &.text-purple { color: #c084fc; }
+      &.text-blue {
+        color: #60a5fa;
+      }
+
+      &.text-green {
+        color: #4ade80;
+      }
+
+      &.text-purple {
+        color: #c084fc;
+      }
     }
 
     .stat-label {
@@ -252,8 +270,16 @@ const duration = computed(() => {
 }
 
 @keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(52, 199, 89, 0.4); }
-  70% { box-shadow: 0 0 0 6px rgba(52, 199, 89, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(52, 199, 89, 0); }
+  0% {
+    box-shadow: 0 0 0 0 rgba(52, 199, 89, 0.4);
+  }
+
+  70% {
+    box-shadow: 0 0 0 6px rgba(52, 199, 89, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(52, 199, 89, 0);
+  }
 }
 </style>
